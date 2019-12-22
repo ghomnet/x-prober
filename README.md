@@ -6,7 +6,7 @@
 [debian]: https://antergos.com/distro-logos/openlogo-nd-25.png 'debian'
 [windows]: http://www.likoton.pl/likoton-content/uploads/2013/07/Przycisk-Windows.png 'windows'
 
-[![X Prober preview](preview.png)](preview.png)
+[![X Prober preview](preview.jpg)](preview.jpg)
 
 - [Simplified Chinese | 简体中文](README-zh_CN.md)
 - [Traditional Chinese(Taiwan) | 正體中文（臺灣）](README-zh_TW.md)
@@ -17,7 +17,7 @@
 
 > This is a prober program for **PHP environment**. It can show your server information and readable easily.
 
-And the most important thing is that it's like 📱 **iPhone X/XS/XS Max/XR** !
+And the most important thing is that it's like 📱 **iPhone X/XS/XS Max/XR/11/11 Pro/11 Pro Max** !
 
 [![Backers on Open Collective](https://opencollective.com/x-prober/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/x-prober/sponsors/badge.svg)](#sponsors)
@@ -41,7 +41,7 @@ And the most important thing is that it's like 📱 **iPhone X/XS/XS Max/XR** !
 
 - Compile environment: PHP 7.3+
 - Production environment: PHP 5.3+
-- Browser support: <del>IE9</del> / Chrome / Firefox / Edge
+- Browser support: <del>IE9</del> / Chrome / Firefox / Edge / Android / 
 - OS support: Linux / Windows(basic features)
 - Tested: ![debian][debian] ![ubuntu][ubuntu] ![arch][arch] ![windows][windows]
 
@@ -53,7 +53,8 @@ And the most important thing is that it's like 📱 **iPhone X/XS/XS Max/XR** !
 - Watch scripts: `$ npm run dev`.
 - Generate composer vendor: `$ composer install && composer dumpautoload -o`.
 - Compile **development**: `$ php ./Make.php dev`.
-- Compile **production**: `$ npm run build && php ./Make.php`.
+- Generate languages: `$ npm run lang` or `node ./build-lang.js` to remake `./languages/lang.pot` language template.
+- Compile **production**: `$ npm run build && php ./Make.php build`.
 - Access `./dist/prober.php` from HTTP browser.
 - Enjoy it. 😄
 - Pull Request.
@@ -62,8 +63,8 @@ And the most important thing is that it's like 📱 **iPhone X/XS/XS Max/XR** !
 
 - **Fork** project.
 - Fetch your project.
-- Use [Poedit](https://poedit.net/) to create your language from `./languages/language.pot` language template file and translates it.
-- Save your language file _(like: `en_US.po`)_ into `./languages`.
+- Use [Poedit](https://poedit.net/) to create your language from `./languages/lang.pot` language template file and translates it.
+- Save your language file (like: `en_US.po`) into `./languages`.
 - Pull Request and thank you. 😘
 
 ## Note for participate in contribution

@@ -2,6 +2,98 @@
 
 All Notable changes to `X-Prober` will be documented in this file
 
+## 3.7.0 - 2019-12-03
+
+### Add
+
+- Add multi update check sources
+
+## 3.6.0 - 2019-11-20
+
+### Fix
+
+- Fix mbstring extension detection
+
+### Update
+
+- Update translation: zh_TW
+
+## 3.5.0 - 2019-11-20
+
+### Add
+
+- Add http authorization
+
+### Update
+
+- Update SQLite3 version
+
+## 3.4.0 - 2019-10-21
+
+### Optimize
+
+- Rename components of styled-components
+
+## 3.3.0 - 2019-09-19
+
+### Optimize
+
+- Optimize notch position
+- Optimize languages generation tool
+
+### Update
+
+- Update Nginx version to 1.16.1
+
+## 3.2 - 2019-08-03
+
+### Fix
+
+- Fix progress bar color error in old browser
+
+## 3.1 - 2019-08-01
+
+### Optimize
+
+- Optimize page scroller
+- Optimize viewer size
+
+## 3.0 - 2019-08-31
+
+### Add
+
+- Independent PING feature
+- Only JS to render information
+- Support 2k/4k resolution
+- Add CPU usage for Windows
+
+### Optimize
+
+- Optimize languages
+- Tiny server benchmarks items
+
+## 2.4.5 - 2019-08-04
+
+### Update
+
+- Update lastest PHP version to 7.3.8
+
+## 2.4.4 - 2019-07-11
+
+### Fix
+
+- Fix lodash security vulnerabilities
+
+## 2.4.3 - 2019-07-06
+
+### Fix
+
+- Fix #31 division by zero error
+
+### Update
+
+- Update PHP lastest version 7.3.7
+
 ## 2.4.2 - 2019-06-10
 
 ### Update
