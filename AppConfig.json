@@ -1,5 +1,5 @@
 {
-  "APP_VERSION": "3.7",
+  "APP_VERSION": "7.5",
   "APP_NAME": "X Prober",
   "APP_URL": "https://github.com/kmvan/x-prober",
   "AUTHOR_URL": "https://inn-studio.com/prober",
@@ -11,15 +11,54 @@
     "https://raw.githubusercontent.com/kmvan/x-prober/master/AppConfig.json",
     "https://api.inn-studio.com/download/?id=xprober-config"
   ],
-  "APP_CONFIG_URL_DEV": "http://127.0.0.1/prober/AppConfig.json",
+  "APP_CONFIG_URL_DEV": "http://localhost:8000/AppConfig.json",
+  "APP_TEMPERATURE_SENSOR_URL": "http://127.0.0.1",
+  "APP_TEMPERATURE_SENSOR_PORTS": [2048, 4096],
   "AUTHOR_NAME": "INN STUDIO",
-  "LATEST_PHP_STABLE_VERSION": 7,
-  "LATEST_NGINX_STABLE_VERSION": "1.16.1",
-  "LATEST_SQLITE3_STABLE_VERSION": "3.30.1",
-  "LATEST_MYSQL_CLIENT_STABLE_VERSION": "50012",
+  "LATEST_PHP_STABLE_VERSION": "8",
+  "LATEST_NGINX_STABLE_VERSION": "1.18.0",
   "BENCHMARKS": [
     {
-      "name": "RamNode/SSD/PHP7.3",
+      "name": "VPSPlayer / AMD-3950X / PHP80 JIT",
+      "url": "https://vpsplayer.com/aff.php?aff=50",
+      "date": "2021-02-25",
+      "proberUrl": "http://23.225.121.61/x.php",
+      "binUrl": "http://23.225.121.61/64m.bin",
+      "detail": {
+        "hash": 878,
+        "intLoop": 997,
+        "floatLoop": 997,
+        "ioLoop": 875
+      }
+    },
+    {
+      "name": "VPSPlayer / E5-2690v2 / PHP80",
+      "url": "https://vpsplayer.com/aff.php?aff=50",
+      "date": "2021-01-17",
+      "proberUrl": "http://103.44.238.36/x.php",
+      "binUrl": "http://103.44.238.36/64m.bin",
+      "detail": {
+        "hash": 564,
+        "intLoop": 900,
+        "floatLoop": 901,
+        "ioLoop": 515
+      }
+    },
+    {
+      "name": "Olink / AMD-3700X / PHP80 JIT",
+      "url": "https://www.olink.cloud/clients/aff.php?aff=120",
+      "date": "2021-02-25",
+      "proberUrl": "https://x-prober-server-benchmark-olink-frk.inn-studio.com",
+      "binUrl": "https://speedtest.fishfish.date",
+      "detail": {
+        "hash": 885,
+        "intLoop": 997,
+        "floatLoop": 997,
+        "ioLoop": 778
+      }
+    },
+    {
+      "name": "RamNode / PHP73",
       "url": "https://clientarea.ramnode.com/aff.php?aff=4143",
       "date": "2019-09-02",
       "proberUrl": "https://x-prober-server-benchmark-ramnode-sea.inn-studio.com",
@@ -32,23 +71,47 @@
       }
     },
     {
-      "name": "SpartanHost/HDD/PHP7.3",
-      "url": "https://billing.spartanhost.net/aff.php?aff=801",
-      "date": "2019-03-09",
-      "proberUrl": "https://x-prober-server-benchmark-spartanhost-dalls.inn-studio.com",
+      "name": "Aliyun / HangZhou / PHP73",
+      "url": "https://www.aliyun.com/minisite/goods?userCode=0nry1oii",
+      "date": "2019-12-20",
+      "proberUrl": "http://47.96.81.53/x.php",
       "detail": {
-        "hash": 830,
-        "intLoop": 958,
-        "floatLoop": 957,
-        "ioLoop": 582
+        "hash": 800,
+        "intLoop": 945,
+        "floatLoop": 948,
+        "ioLoop": 827
       }
     },
     {
-      "name": "Vultr/PHP7.3",
+      "name": "SpartanHost / HDD / PHP74",
+      "url": "https://billing.spartanhost.net/aff.php?aff=801",
+      "date": "2021-03-02",
+      "proberUrl": "https://x-prober-server-benchmark-spartanhost-dalls.inn-studio.com",
+      "detail": {
+        "hash": 789,
+        "intLoop": 966,
+        "floatLoop": 956,
+        "ioLoop": 665
+      }
+    },
+    {
+      "name": "Vultr / Tokyo / PHP74",
       "url": "https://www.vultr.com/?ref=7826363-4F",
+      "date": "2020-04-17",
+      "proberUrl": "https://x-prober-server-benchmark-vultr-tokyo.inn-studio.com/",
+      "binUrl": "https://hnd-jp-ping.vultr.com/vultr.com.100MB.bin",
+      "detail": {
+        "hash": 732,
+        "intLoop": 951,
+        "floatLoop": 951,
+        "ioLoop": 628
+      }
+    },
+    {
+      "name": "Vultr / Lax / PHP73",
+      "url": "https://www.vultr.com/?ref=7826363-4F",
+      "binUrl": "http://lax-ca-us-ping.vultr.com/vultr.com.100MB.bin",
       "date": "2019-03-01",
-      "proberUrl": "https://x-prober-server-benchmark-vultr-los-angeles.inn-studio.com/",
-      "binUrl": "https://x-prober-server-benchmark-vultr-los-angeles.inn-studio.com/512m.bin",
       "detail": {
         "hash": 822,
         "intLoop": 958,
@@ -57,7 +120,7 @@
       }
     },
     {
-      "name": "BandwagonHOST/KVM/PHP7.2",
+      "name": "BandwagonHOST / KVM / PHP72",
       "url": "https://bandwagonhost.com/aff.php?aff=34116",
       "proberUrl": "https://x-prober-server-benchmark-bwh-los-angeles.inn-studio.com/",
       "binUrl": "https://x-prober-server-benchmark-bwh-los-angeles.inn-studio.com/512m.bin",

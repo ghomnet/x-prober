@@ -1,11 +1,12 @@
-import CardStore from '~components/Card/src/stores'
-import { gettext } from '~components/Language/src'
-import component from './components'
-
-CardStore.addCard({
-  id: 'phpInfo',
-  title: gettext('PHP Information'),
-  tinyTitle: gettext('PHP'),
-  priority: 400,
-  component,
-})
+import { CardStore } from '@/Card/src/stores'
+import { gettext } from '@/Language/src'
+import { PhpInfo as component } from './components'
+import { PhpInfoStore } from './stores'
+PhpInfoStore.enabled &&
+  CardStore.addCard({
+    id: PhpInfoStore.ID,
+    title: gettext('PHP Information'),
+    tinyTitle: gettext('PHP'),
+    priority: 400,
+    component,
+  })

@@ -1,42 +1,40 @@
-import { css, createGlobalStyle } from 'styled-components'
-import { COLOR_DARK, GUTTER } from '~components/Config/src'
-import { device } from '~components/Style/src/components/devices'
-
+import { ANIMATION_DURATION_SC, GUTTER } from '@/Config/src'
+import { device } from '@/Style/src/components/devices'
+import { createGlobalStyle, css } from 'styled-components'
 const normalize = css`
   @media ${device('desktopSm')} {
     ::-webkit-scrollbar-track {
       background-color: transparent;
     }
-
     ::-webkit-scrollbar {
       width: ${GUTTER};
       background-color: transparent;
     }
-
     ::-webkit-scrollbar-thumb {
       border-radius: ${GUTTER} 0 0 ${GUTTER};
       background-color: #ccc;
-
       :hover {
         background-color: #fff;
       }
     }
   }
-
   * {
     box-sizing: border-box;
     word-break: break-all;
+    transition: background ${ANIMATION_DURATION_SC}s;
   }
-
+  ::selection {
+    background: ${({ theme }) => theme['selection.bg']};
+    color: ${({ theme }) => theme['selection.fg']};
+  }
   html {
     font-size: 75%;
-    background: ${COLOR_DARK};
+    background: ${({ theme }) => theme['html.bg']};
     scroll-behavior: smooth;
   }
-
   body {
-    background: ${COLOR_DARK};
-    color: ${COLOR_DARK};
+    background: ${({ theme }) => theme['body.bg']};
+    color: ${({ theme }) => theme['body.fg']};
     font-family: 'Noto Sans CJK SC', 'Helvetica Neue', Helvetica, Arial, Verdana,
       Geneva, sans-serif;
     padding: ${GUTTER};
@@ -44,20 +42,15 @@ const normalize = css`
     line-height: 1.5;
     /* will-change: transform; */
   }
-
   a {
     cursor: pointer;
-    color: ${COLOR_DARK};
+    color: ${({ theme }) => theme['a.fg']};
     text-decoration: none;
-
     :hover,
     :active {
-      color: ${COLOR_DARK};
+      color: ${({ theme }) => theme['a.fg']};
       text-decoration: underline;
     }
   }
 `
-
-const Normalize = createGlobalStyle`${normalize}`
-
-export default Normalize
+export const Normalize = createGlobalStyle`${normalize}`

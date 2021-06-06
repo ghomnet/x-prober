@@ -1,35 +1,34 @@
-import '@babel/polyfill'
-import 'isomorphic-fetch'
-
+import { Cards } from '@/Card/src/components'
+import { ColorScheme } from '@/ColorScheme/src/components'
+import { ColorSchemeStore } from '@/ColorScheme/src/stores'
+import { GUTTER } from '@/Config/src'
+import { Container } from '@/Container/src/components'
+import '@/Database/src'
+import { Footer } from '@/Footer/src/components'
+import { Forkme } from '@/Forkme/src/components'
+import '@/MyInfo/src'
+import { Nav } from '@/Nav/src/components'
+import '@/NetworkStats/src'
+import '@/Nodes/src'
+import '@/PhpExtensions/src'
+import '@/PhpInfo/src'
+import '@/Ping/src'
+import '@/ServerBenchmark/src'
+import '@/ServerInfo/src'
+import '@/ServerStatus/src'
+import '@/TemperatureSensor/src'
+import { Title } from '@/Title/src/components'
+import { Toast } from '@/Toast/src/components'
+import { ready } from '@/Utils/src/components/ready'
+import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { render } from 'react-dom'
-import ready from '~components/Helper/src/components/ready'
-import styled from 'styled-components'
-import Title from '~components/Title/src/components'
-import Container from '~components/Container/src/components'
-import Cards from '~components/Card/src/components'
-import Normalize from './style'
-import '~components/ServerStatus/src'
-import '~components/NetworkStats/src'
-import '~components/Ping/src'
-import '~components/ServerInfo/src'
-import '~components/PhpInfo/src'
-import '~components/PhpExtensions/src'
-import '~components/Database/src'
-import '~components/MyInfo/src'
-import '~components/ServerBenchmark/src'
-import Nav from '~components/Nav/src/components'
-import store from '../stores'
-import Forkme from '~components/Forkme/src/components'
-import Footer from '~components/Footer/src/components'
-import Toast from '~components/Toast/src/components'
-import { GUTTER, COLOR_DARK, COLOR_GRAY } from '~components/Config/src'
-
+import styled, { ThemeProvider } from 'styled-components'
+import { BootstrapStore } from '../stores'
+import { Normalize } from './style'
 const StyledApp = styled.div`
   padding: calc(${GUTTER} * 3.5) 0 calc(${GUTTER} * 2);
-  background: ${COLOR_GRAY};
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
-
+  background: ${({ theme }) => theme['app.bg']};
   /* notch right angle square */
   ::before,
   ::after {
@@ -38,7 +37,7 @@ const StyledApp = styled.div`
     top: 0;
     right: 0;
     bottom: calc(${GUTTER} * 2);
-    border: ${GUTTER} solid ${COLOR_DARK};
+    border: ${GUTTER} solid ${({ theme }) => theme['app.border']};
     pointer-events: none;
     z-index: 1;
     content: '';
@@ -47,22 +46,24 @@ const StyledApp = styled.div`
     border-radius: calc(${GUTTER} * 3);
   }
 `
-const Bootstrap = () => (
-  <>
-    <Normalize />
-    <Title />
-    <StyledApp ref={c => store.setAppContainer(c)}>
-      <Container>
-        <Cards />
-        <Footer />
-      </Container>
-    </StyledApp>
-    <Nav />
-    <Forkme />
-    <Toast />
-  </>
-)
-
+const Bootstrap = observer(() => {
+  return (
+    <ThemeProvider theme={ColorSchemeStore.scheme}>
+      <Normalize />
+      <Title />
+      <StyledApp ref={(c) => BootstrapStore.setAppContainer(c)}>
+        <Container>
+          <ColorScheme />
+          <Cards />
+          <Footer />
+        </Container>
+      </StyledApp>
+      <Nav />
+      <Forkme />
+      <Toast />
+    </ThemeProvider>
+  )
+})
 ready(() => {
   const c = document.createElement('div')
   document.body.innerHTML = ''

@@ -1,31 +1,45 @@
-import { get } from 'lodash-es'
-import conf from '~components/Helper/src/components/conf'
-import { computed, configure } from 'mobx'
-import FetchStore from '~components/Fetch/src/stores'
-
+import { FetchStore } from '@/Fetch/src/stores'
+import { conf } from '@/Utils/src/components/conf'
+import { computed, configure, makeObservable } from 'mobx'
 configure({
   enforceActions: 'observed',
 })
-
-export interface INetworkStatsItem {
-  [networkCardid: string]: {
-    rx: number
-    tx: number
-  }
+export interface NetworkStatsItemProps {
+  id: string
+  rx: number
+  tx: number
 }
-
-class NetworkStatsStore {
+class Main {
   public readonly ID = 'networkStats'
-  public readonly conf = get(conf, this.ID)
-
-  @computed
-  get items(): INetworkStatsItem | null {
+  public readonly conf = conf?.[this.ID]
+  public readonly enabled: boolean = !!this.conf
+  public constructor() {
+    makeObservable(this)
+  }
+  @computed public get items(): NetworkStatsItemProps[] {
     return (
       (FetchStore.isLoading
-        ? get(this.conf, 'networks')
-        : get(FetchStore.data, `${this.ID}.networks`)) || null
+        ? this.conf?.networks
+        : FetchStore.data?.[this.ID]?.networks) || []
+    )
+  }
+  @computed public get sortItems() {
+    return this.items
+      .slice()
+      .filter(({ tx }) => !!tx)
+      .sort((a, b) => a.tx - b.tx)
+  }
+  @computed public get itemsCount() {
+    return this.sortItems.length
+  }
+  @computed public get timestamp(): number {
+    return (
+      (FetchStore.isLoading
+        ? this.conf?.timestamp
+        : FetchStore.data?.[this.ID]?.timestamp) ||
+      this.conf?.timestamp ||
+      0
     )
   }
 }
-
-export default new NetworkStatsStore()
+export const NetworkStatsStore = new Main()

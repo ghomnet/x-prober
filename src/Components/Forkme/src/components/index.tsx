@@ -1,28 +1,46 @@
+import { BootstrapStore } from '@/Bootstrap/src/stores'
+import { ANIMATION_DURATION_SC, GUTTER } from '@/Config/src'
+import { gettext } from '@/Language/src'
+import { device } from '@/Style/src/components/devices'
+import { rgba } from 'polished'
 import React from 'react'
-import styled from 'styled-components'
-import { COLOR_DARK, GUTTER } from '~components/Config/src'
-import { gettext } from '~components/Language/src'
-import BootstrapStore from '~components/Bootstrap/src/stores'
-import { device } from '~components/Style/src/components/devices'
-
+import styled, { keyframes } from 'styled-components'
+const slideIn = keyframes`
+  from{
+    transform: rotate(-45deg) translate3d(-28%, -270%, 0);
+    @media ${device('tablet')} {
+      transform: rotate(-45deg) translate3d(-28%, -250%, 0);
+    }
+  }
+  to{
+    transform: rotate(-45deg) translate3d(-28%, -70%, 0);
+    @media ${device('tablet')} {
+      transform: rotate(-45deg) translate3d(-28%, -50%, 0);
+    }
+  }
+`
 const StyledForkmeLink = styled.a`
   position: fixed;
   top: 0;
   left: 0;
-  background: ${COLOR_DARK};
-  color: rgba(255, 255, 255, 0.85);
+  background: ${({ theme }) => theme['starMe.bg']};
+  color: ${({ theme }) => theme['starMe.fg']};
   font-family: Arial Black;
   padding: calc(${GUTTER} / 3) calc(${GUTTER} * 3);
-  transform: rotate(-45deg) translate(-28%, -70%);
   font-size: calc(${GUTTER} * 0.7);
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 5px ${({ theme }) => rgba(theme['starMe.bg'], 0.5)};
   z-index: 2;
-
+  animation: ${slideIn} ${ANIMATION_DURATION_SC}s;
+  animation-fill-mode: forwards;
   @media ${device('tablet')} {
     font-size: 1rem;
-    transform: rotate(-45deg) translate(-28%, -50%);
     top: calc(${GUTTER} / 2);
     left: calc(${GUTTER} / 2);
+  }
+  :hover {
+    color: ${({ theme }) => theme['starMe.hover.fg']};
+    background: ${({ theme }) => theme['starMe.hover.bg']};
+    text-decoration: none;
   }
   ::after,
   ::before {
@@ -33,9 +51,9 @@ const StyledForkmeLink = styled.a`
     width: 100%;
     background: linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0),
-      #fff,
-      rgba(255, 255, 255, 0)
+      ${({ theme }) => rgba(theme['starMe.bg'], 0)},
+      ${({ theme }) => theme['starMe.fg']},
+      ${({ theme }) => rgba(theme['starMe.bg'], 0)}
     );
     content: '';
   }
@@ -43,18 +61,11 @@ const StyledForkmeLink = styled.a`
     top: auto;
     bottom: 1px;
   }
-  :hover {
-    color: #fff;
-    text-decoration: none;
-  }
 `
-
-const Forkme = () => {
+export const Forkme = () => {
   return (
-    <StyledForkmeLink href={BootstrapStore.appUrl} target='_blank'>
+    <StyledForkmeLink href={BootstrapStore.appUrl} target='_blank' title='Fork'>
       {gettext('STAR 🌟 ME')}
     </StyledForkmeLink>
   )
 }
-
-export default Forkme

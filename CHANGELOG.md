@@ -2,6 +2,287 @@
 
 All Notable changes to `X-Prober` will be documented in this file
 
+## 7.5.0 - 2021-04-10
+
+### Fix
+
+- Fix system load update error
+
+## 7.4.0 - 2021-02-25
+
+### Add
+
+- Add PHP8 Opcache JIT detector
+
+### Fix
+
+- Fix `build-lang.js` script lodash error
+- Fix Japanese translation errors
+
+## 7.3.0 - 2021-02-24
+
+### Fix
+
+- Fix null coalescing operator in PHP5
+
+### Optimize
+
+- Optimize nav module
+- Optimize IP text display
+- Optimize location text display
+- Use PNPM instead of npm
+
+## 7.2.0 - 2021-02-18
+
+### Optimize
+
+- Optimize IPv4/v6 text description
+- Optimize nav style
+- Optimize title style
+- Optimize progress bar style
+- Adjust js to ES2016 scheme
+
+## 7.1.0 - 2021-02-17
+
+### Fix
+
+- Fix Zend "Optimizer" typo (by Jack Cherng)
+
+### Optimize
+
+- Optimize default color scheme, make it more refined
+- Optimize dark color scheme, make it more dark
+
+## 7.0.0 - 2021-02-13
+
+### Add
+
+- Add dark mode
+- Add server IPv4/IPv6 information
+- Add server IPv4 location information
+- Add my IPv4/IPv6 information
+- Add my IPv4 location information
+
+### Adjust
+
+- Adjust color schemes
+
+## 6.7.0 - 2021-01-28
+
+### Add
+
+- Add server benchmarks copy feature
+
+### Optimize
+
+- Optimize style color
+- Optimize HTML structure
+
+## 6.6.0 - 2020-12-31
+
+### Update
+
+- Rewrite fetch action
+- Update PHP stable version
+
+## 6.5.0 - 2020-10-29
+
+### Update
+
+- Code with React hooks
+
+## 6.3.0 - 2020-10-18
+
+### Update
+
+- Update webpack to 5.1 and re-configure
+- Update packages
+
+### Fix
+
+- Fix `mysqli_get_client_version()` should have no args in PHP 8 (Jack Cherng #104)
+
+## 6.2.0 - 2020-09-18
+
+### Add
+
+- Add server IP feature switch
+
+### Update
+
+- Update npm packages
+
+## 6.1.0 - 2020-08-20
+
+### Fix
+
+- Fix nodes networks speed error
+
+## 6.0.0 - 2020-08-19
+
+### Add
+
+- Add Nodes feature
+
+## 5.0.0 - 2020-08-11
+
+### Add
+
+- Add color schemes
+
+## 4.10.0 - 2020-08-11
+
+### Add
+
+- Add `xconfig.json` for probe config settings
+- Add disable features config settings
+- Add more script for development
+
+## 4.9.0 - 2020-06-06
+
+### Optimize
+
+- Optimize network stat for some devices
+
+## 4.8.0 - 2020-05-04
+
+### Add
+
+- Add start up animation
+
+### Update
+
+- Update GPL2.0 to GPL3.0
+
+### Optimize
+
+- Micro style optimization
+
+## 4.7.0 - 2020-04-25
+
+### Fix
+
+- Fix memory refresh error
+
+### Update
+
+- Update Nginx stable version
+- Update SQLite3 stable version
+- Update MySQLi client version
+
+### Optimize
+
+- Remove lodash lib, reduce js size
+
+## 4.6.0 - 2020-04-22
+
+### Fix
+
+- Fix large number error on 32bit OS
+
+## 4.5.0 - 2020-04-10
+
+### Optimize
+
+- Optimize language display
+
+## 4.4.0 - 2020-04-08
+
+### Update
+
+- Update package
+
+## 4.3.0 - 2020-02-22
+
+### Add
+
+- Add memory usage description
+
+### Optimize
+
+- Optimize UI color
+- Optimize Ping button style
+
+## 4.2.0 - 2020-02-06
+
+### Optimize
+
+- Reduce JS file size
+
+### Add
+
+- Add `php-dev.sh` for dev
+- Add babel loader for prod
+
+### Update
+
+- Update package
+
+## 4.1.0 - 2020-01-30
+
+### Add
+
+- Add disk real-time usage
+
+### Optimize
+
+- Optimize system load description
+- Remove babel
+- Adjust interface name rule
+
+## 4.0.0 - 2020-01-13
+
+### Add
+
+- New module sortability
+
+### Optimize
+
+- Optimize progress performance
+- Optimize text case
+
+## 3.11.0 - 2020-01-12
+
+### Add
+
+- Add `extensions` dir for future extensions
+
+### Optimize
+
+- Optimize temperature sensor display
+
+## 3.10.0 - 2020-01-10
+
+### Fix
+
+- Fix bottom nav item switch
+
+### Optimize
+
+- Adjust colors
+
+## 3.9.0 - 2020-01-09
+
+### Add
+
+- Add Temperature sensor feature (#7)
+- Add Navbar scrollable on mobile view
+
+### Fix
+
+- Fix language json file path error (for dev)
+
+## 3.8.0 - 2020-01-06
+
+### Optimize
+
+- Optimize bootstrap code
+
+### Update
+
+- Update benchmarks
+- Update package
+
 ## 3.7.0 - 2019-12-03
 
 ### Add

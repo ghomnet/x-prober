@@ -1,60 +1,102 @@
-import React, { Component } from 'react'
+import { GUTTER } from '@/Config/src'
+import { gettext } from '@/Language/src'
+import { NavStore } from '@/Nav/src/stores'
+import { device } from '@/Style/src/components/devices'
+import { ElevatorNavBody } from '@/Utils/src/components/elevator-nav'
+import { observer } from 'mobx-react-lite'
+import React from 'react'
 import styled from 'styled-components'
-import { observer } from 'mobx-react'
-import store from '../stores'
-import { COLOR_DARK, GUTTER } from '~components/Config/src'
-
+import { CardStore } from '../stores'
+interface StyleArrowProps {
+  isHidden: boolean
+}
 const StyledFieldset = styled.fieldset`
   position: relative;
-  border: 5px solid #eee;
+  border: 5px solid ${({ theme }) => theme['card.border']};
   border-radius: calc(${GUTTER} * 1.5);
-  background: linear-gradient(#fff, rgba(255, 255, 255, 0.5));
+  background: ${({ theme }) => theme['card.bg']};
   margin-bottom: calc(${GUTTER} * 1.5);
   padding: calc(${GUTTER} * 1.5) 0 0;
-  box-shadow: -1px -1px 0 rgba(0, 0, 0, 0.1), 1px 1px 0 hsla(0, 0%, 100%, 0.5),
-    inset 1px 1px 0 hsla(0, 0%, 100%, 0.5), inset -1px -1px 0 rgba(#000, 0.1);
+  box-shadow: ${({ theme }) => theme['card.boxShadow']};
 `
-
 const StyledLegend = styled.legend`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   left: 50%;
   top: 0;
   transform: translate(-50%, -50%);
-  background: ${COLOR_DARK};
-  padding: 0.5rem 2rem;
+  background: ${({ theme }) => theme['card.legend.bg']};
+  padding: 0.5rem 1rem;
   border-radius: 5rem;
-  color: #fff;
+  color: ${({ theme }) => theme['card.legend.fg']};
   margin: 0 auto;
-  text-shadow: 0 1px 1px ${COLOR_DARK};
   white-space: nowrap;
 `
-
-const StyledBody = styled.div``
-
-@observer
-class Cards extends Component {
-  public render() {
-    const { cardsLength, sortedCards } = store
-
-    if (!cardsLength) {
-      return null
-    }
-
-    return (
-      <>
-        {sortedCards.map(({ id, title, component: Tag }) => {
-          return (
-            <StyledFieldset key={id} id={id}>
-              <StyledLegend>{title}</StyledLegend>
-              <StyledBody>
-                <Tag />
-              </StyledBody>
-            </StyledFieldset>
-          )
-        })}
-      </>
-    )
+const StyledBody = styled.div`
+  padding: 0 calc(${GUTTER} / 2);
+  @media ${device('tablet')} {
+    padding: 0 ${GUTTER};
   }
-}
-
-export default Cards
+`
+const StyleArrow = styled.a<StyleArrowProps>`
+  color: ${({ theme }) => theme['card.legend.fg']};
+  padding: 0 0.5rem;
+  cursor: ${({ isHidden }) => (isHidden ? 'not-allowed' : 'pointer')};
+  opacity: ${({ isHidden }) => (isHidden ? '0.1' : '0.5')};
+  :active,
+  :hover {
+    text-decoration: none;
+    opacity: ${({ isHidden }) => (isHidden ? '0.1' : '1')};
+    color: ${({ theme }) => theme['card.legend.fg']};
+  }
+`
+export const Cards = observer(() => {
+  const {
+    cardsLength,
+    enabledCards,
+    enabledCardsLength,
+    moveCardDown,
+    moveCardUp,
+  } = CardStore
+  if (!cardsLength) {
+    return null
+  }
+  return (
+    <ElevatorNavBody id='innCard' setActiveIndex={NavStore.setActiveIndex}>
+      {enabledCards.map(({ id, title, component: Tag }, i) => {
+        const upArrow = (
+          <StyleArrow
+            title={gettext('Move up')}
+            isHidden={i === 0}
+            onClick={(e) => moveCardUp(e, id)}
+            href='#'>
+            ▲
+          </StyleArrow>
+        )
+        const downArrow = (
+          <StyleArrow
+            title={gettext('Move down')}
+            isHidden={i === enabledCardsLength - 1}
+            onClick={(e) => moveCardDown(e, id)}
+            href='#'>
+            ▼
+          </StyleArrow>
+        )
+        return (
+          <StyledFieldset key={id} id={id}>
+            <StyledLegend>
+              {upArrow}
+              {title}
+              {downArrow}
+            </StyledLegend>
+            <StyledBody>
+              <Tag />
+            </StyledBody>
+          </StyledFieldset>
+        )
+      })}
+    </ElevatorNavBody>
+  )
+})

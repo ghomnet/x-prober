@@ -1,98 +1,105 @@
-import React, { Component, MouseEvent } from 'react'
-import { observer } from 'mobx-react'
-import CardStore from '~components/Card/src/stores'
-import styled from 'styled-components'
-import { device } from '~components/Style/src/components/devices'
-import { COLOR_DARK, GUTTER } from '~components/Config/src'
-import getElementOffsetTop from '~components/Helper/src/components/get-element-offset-top'
-
+import { CardStore } from '@/Card/src/stores'
+import { ANIMATION_DURATION_SC, GUTTER } from '@/Config/src'
+import { device } from '@/Style/src/components/devices'
+import { ElevatorNav } from '@/Utils/src/components/elevator-nav'
+import { getElementOffsetTop } from '@/Utils/src/components/get-element-offset-top'
+import { observer } from 'mobx-react-lite'
+import React, { MouseEvent, ReactElement, useCallback } from 'react'
+import styled, { keyframes } from 'styled-components'
+import { NavStore } from '../stores'
+const slideUp = keyframes`
+  from{
+    transform: translate3d(0, 100%, 0);
+  }
+  to{
+    transform: translate3d(0, 0, 0);
+  }
+`
 const StyledNav = styled.div`
   position: fixed;
   bottom: 0;
-  background: ${COLOR_DARK};
+  background: ${({ theme }) => theme['nav.bg']};
   padding: 0 ${GUTTER};
   left: 0;
   right: 0;
   z-index: 10;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 3rem;
   line-height: 3rem;
+  overflow-x: auto;
+  @media ${device('mobileLg')} {
+    overflow-x: unset;
+    justify-content: center;
+  }
 `
-
 const StyledNavLink = styled.a`
+  position: relative;
   white-space: nowrap;
-  color: #ccc;
-  padding: 0.3rem 0.5rem;
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
-
+  color: ${({ theme }) => theme['nav.fg']};
+  padding: 0 0.5rem;
+  border-right: 1px solid ${({ theme }) => theme['nav.border']};
+  animation: ${slideUp} ${ANIMATION_DURATION_SC}s;
+  animation-fill-mode: forwards;
   @media ${device('tablet')} {
-    padding: 0.3rem ${GUTTER};
+    padding: 0 ${GUTTER};
   }
-
   :hover {
-    background: #f8f8f8;
-    color: ${COLOR_DARK};
+    background: ${({ theme }) => theme['nav.hover.bg']};
+    color: ${({ theme }) => theme['nav.hover.fg']};
     text-decoration: none;
-    box-shadow: inset 0 -10px 10px rgba(0, 0, 0, 0.1),
-      0 -5px 30px rgba(0, 0, 0, 0.3);
   }
-
+  &.active {
+    background: ${({ theme }) => theme['nav.active.bg']};
+    color: ${({ theme }) => theme['nav.active.fg']};
+    text-decoration: none;
+  }
   :last-child {
     border-right: 0;
   }
 `
-
 const StyledNavLinkTitle = styled.span`
   display: none;
-
   @media ${device('desktopSm')} {
     display: block;
   }
 `
-
 const StyledNavLinkTinyTitle = styled.span`
   display: block;
-
   @media ${device('desktopSm')} {
     display: none;
   }
 `
-
-@observer
-class Nav extends Component {
-  private onClick = (e: MouseEvent, id: string) => {
-    e.preventDefault()
-
-    const target = document.querySelector(`#${id}`) as HTMLElement
-
-    if (!target) {
-      return
-    }
-
-    history.pushState(null, '', `#${id}`)
-    window.scrollTo(0, getElementOffsetTop(target) - 50)
-  }
-
-  public render() {
-    return (
-      <StyledNav>
-        {CardStore.sortedCards.map(({ id, title, tinyTitle }) => {
-          return (
-            <StyledNavLink
-              key={id}
-              onClick={e => this.onClick(e, id)}
-              href={`#${id}`}
-            >
-              <StyledNavLinkTitle>{title}</StyledNavLinkTitle>
-              <StyledNavLinkTinyTitle>{tinyTitle}</StyledNavLinkTinyTitle>
-            </StyledNavLink>
-          )
-        })}
-      </StyledNav>
-    )
-  }
-}
-
-export default Nav
+export const Nav = observer(() => {
+  const onClick = useCallback(
+    (e: MouseEvent<HTMLAnchorElement>, id: string) => {
+      e.preventDefault()
+      const target = document.querySelector(`#${id}`) as HTMLElement
+      if (!target) {
+        return
+      }
+      history.pushState(null, '', `#${id}`)
+      window.scrollTo(0, getElementOffsetTop(target) - 50)
+    },
+    []
+  )
+  const items = CardStore.enabledCards
+    .map(({ id, title, tinyTitle, enabled = true }) => {
+      if (!enabled) {
+        return null
+      }
+      return (
+        <StyledNavLink key={id} onClick={(e) => onClick(e, id)} href={`#${id}`}>
+          <StyledNavLinkTitle>{title}</StyledNavLinkTitle>
+          <StyledNavLinkTinyTitle>{tinyTitle}</StyledNavLinkTinyTitle>
+        </StyledNavLink>
+      )
+    })
+    .filter((n) => n) as ReactElement[]
+  return (
+    <StyledNav>
+      <ElevatorNav activeIndex={NavStore.activeIndex}>{items}</ElevatorNav>
+    </StyledNav>
+  )
+})

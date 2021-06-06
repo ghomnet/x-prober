@@ -1,14 +1,10 @@
-import { get } from 'lodash-es'
-import conf from '~components/Helper/src/components/conf'
+import { conf } from '@/Utils/src/components/conf'
 import { configure } from 'mobx'
-
 configure({
   enforceActions: 'observed',
 })
-
-class FooterStore {
+class Main {
   public readonly ID = 'footer'
-  public readonly conf = get(conf, this.ID)
+  public readonly conf = conf?.[this.ID]
 }
-
-export default new FooterStore()
+export const FooterStore = new Main()

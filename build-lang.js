@@ -2,7 +2,6 @@
  * @version 1.0.5
  */
 
-const trim = require('lodash/trim')
 const glob = require('glob')
 const fs = require('fs')
 const PO = require('pofile')
@@ -11,8 +10,9 @@ const dirSrc = path.resolve(__dirname, 'src')
 const dirComponents = `${dirSrc}/Components`
 const langs = {}
 const poEntries = {}
-
-const parseFile = filePath => {
+const JSON2 = require('JSON2')
+const deepSort = require('deep-sort-object')
+const parseFile = (filePath) => {
   const code = fs.readFileSync(filePath).toString()
   const reg = new RegExp(
     `gettext\\s*\\(\\s*('.+?')\\s*,*\\s*('.+?')*\\s*\\)`,
@@ -23,24 +23,24 @@ const parseFile = filePath => {
 
   if (matches) {
     for (const match of matches) {
-      const msgid = trim(match[1], "'")
-      const msgctxt = trim(match[2] || '', "'")
+      const msgid = match[1].slice(1, -1)
+      const msgctxt = (match[2] || '').slice(1, -1)
       if (poEntries[`${msgid}${msgctxt}`]) {
         continue
       }
 
       poEntries[`${msgid}${msgctxt}`] = `
-${msgctxt ? `msgctxt ${JSON.stringify(msgctxt)}` : ''}
-msgid ${JSON.stringify(msgid)}
+${msgctxt ? `msgctxt ${JSON2.stringify(msgctxt)}` : ''}
+msgid ${JSON2.stringify(msgid)}
 msgstr ""
 `.trim()
     }
   }
 }
 
-const fetchDirOrFile = filePathOrDir => {
+const fetchDirOrFile = (filePathOrDir) => {
   if (fs.lstatSync(filePathOrDir).isDirectory()) {
-    fs.readdirSync(filePathOrDir).map(p =>
+    fs.readdirSync(filePathOrDir).map((p) =>
       fetchDirOrFile(`${filePathOrDir}/${p}`)
     )
   } else {
@@ -83,7 +83,7 @@ fetchDirOrFile(dirComponents)
 // create pot
 createPot()
 
-const formatItem = items => {
+const formatItem = (items) => {
   return items.map(({ msgctxt, msgid, msgstr }) => {
     return {
       msgctxt,
@@ -93,10 +93,10 @@ const formatItem = items => {
   })
 }
 
-const getItem = async filepath => {
-  return new Promise(resolve => {
+const getItem = async (filepath) => {
+  return new Promise((resolve) => {
     PO.load(filepath, (err, data) => {
-      const langId = data.headers.Language
+      const langId = path.basename(filepath, '.po')
       const items = formatItem(data.items)
       resolve({
         items,
@@ -112,14 +112,14 @@ const writeJsData = ({ langId, items }) => {
     if (!langs[key]) {
       langs[key] = {}
     }
-
+    langId = langId.toLowerCase().replace('-', '').replace('_', '')
     langs[key][langId] = msgstr
   })
 
   fs.writeFileSync(
-    path.resolve(__dirname, 'src/Components/Language/lang.json'),
-    JSON.stringify(langs, null, 2),
-    err => {
+    path.resolve(__dirname, 'src/Components/Language/src/lang.json'),
+    JSON2.stringify(deepSort(langs), null, 2),
+    (err) => {
       if (err) {
         throw err
       }
@@ -127,6 +127,6 @@ const writeJsData = ({ langId, items }) => {
   )
 }
 
-glob.sync(path.resolve(__dirname, 'languages/*.po')).map(async filepath => {
+glob.sync(path.resolve(__dirname, 'languages/*.po')).map(async (filepath) => {
   writeJsData(await getItem(filepath))
 })

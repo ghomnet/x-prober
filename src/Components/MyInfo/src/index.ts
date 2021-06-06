@@ -1,11 +1,12 @@
-import CardStore from '~components/Card/src/stores'
-import { gettext } from '~components/Language/src'
-import component from './components'
-
-CardStore.addCard({
-  id: 'myInfo',
-  title: gettext('My information'),
-  tinyTitle: gettext('Mine'),
-  priority: 900,
-  component,
-})
+import { CardStore } from '@/Card/src/stores'
+import { gettext } from '@/Language/src'
+import { MyInfo as component } from './components'
+import { MyInfoStore } from './stores'
+MyInfoStore.enabled &&
+  CardStore.addCard({
+    id: MyInfoStore.ID,
+    title: gettext('My Information'),
+    tinyTitle: gettext('Mine'),
+    priority: 900,
+    component,
+  })

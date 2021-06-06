@@ -1,47 +1,14 @@
-import { observable, action, computed, configure } from 'mobx'
-import conf from '~components/Helper/src/components/conf'
-
+import { conf } from '@/Utils/src/components/conf'
+import { configure } from 'mobx'
 configure({
   enforceActions: 'observed',
 })
-
-export interface IPingItem {
+export interface PingItemProps {
   time: number
 }
-
-class MyInfoStore {
+class Main {
   public readonly ID = 'myInfo'
-  public readonly conf = conf[this.ID]
-
-  @observable public isPing: boolean = false
-  @observable public pingItems: IPingItem[] = []
-
-  @observable public refs = {}
-
-  @action
-  public setRef = (id: string, c: HTMLElement) => {
-    this.refs[id] = c
-  }
-
-  @action
-  public setIsPing = (isPing: boolean) => {
-    this.isPing = isPing
-  }
-
-  @action
-  public setPingItems = (pingItems: IPingItem[]) => {
-    this.pingItems = pingItems
-  }
-
-  @computed
-  get pingItemsCount() {
-    return this.pingItems.length
-  }
-
-  @action
-  public appendPingItem = (item: IPingItem) => {
-    this.pingItems.push(item)
-  }
+  public readonly conf = conf?.[this.ID]
+  public readonly enabled: boolean = !!this.conf
 }
-
-export default new MyInfoStore()
+export const MyInfoStore = new Main()

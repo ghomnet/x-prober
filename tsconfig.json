@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/Components/*"]
+    },
     "module": "esnext",
-    "target": "es5",
+    "target": "es6",
     "lib": ["esnext", "dom"],
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "rootDir": "src",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": false,
@@ -24,9 +28,6 @@
     "pretty": true,
     "strict": true,
     "alwaysStrict": true,
-    "paths": {
-      "~components/*": ["Components/*"]
-    },
     "typeRoots": ["../node_modules/@types"],
     "types": ["core-js"],
     "allowSyntheticDefaultImports": true,
@@ -34,6 +35,14 @@
     "emitDecoratorMetadata": true,
     "downlevelIteration": true
   },
+  "plugins": [
+    {
+      "transform": "typescript-plugin-styled-components",
+      "type": "config",
+      "minify": true,
+      "ssr": false
+    }
+  ],
   "include": ["src"],
   "exclude": [
     "node_modules",
@@ -43,5 +52,6 @@
     "webpack",
     "jest",
     "src/setupTests.ts"
-  ]
+  ],
+  "includes": ["styled-components.d.ts"]
 }

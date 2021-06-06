@@ -1,45 +1,43 @@
-import { observable, action, configure, computed } from 'mobx'
-import { gettext } from '~components/Language/src'
-import ConfigStore, { IAppConfigBenchmark } from '~components/Config/src/stores'
-import { get } from 'lodash-es'
-
+import { AppConfigBenchmarkProps, ConfigStore } from '@/Config/src/stores'
+import { gettext } from '@/Language/src'
+import { conf } from '@/Utils/src/components/conf'
+import { action, computed, configure, makeObservable, observable } from 'mobx'
 configure({
   enforceActions: 'observed',
 })
-
-export interface IMarks {
+export interface MarksProps {
   floatLoop: number
   hash: number
   intLoop: number
   ioLoop: number
 }
-
-class ServerBenchmarkStore {
+class Main {
   public readonly ID = 'serverBenchmark'
-
+  public readonly conf = conf?.[this.ID]
+  public readonly enabledMyServerBenchmark: boolean = !this.conf
+    ?.disabledMyServerBenchmark
   @observable public isLoading: boolean = false
-  @observable public linkText: string = gettext('Click to test')
-  @observable public marks: IMarks | null = null
-
-  @computed
-  get servers(): IAppConfigBenchmark[] | null {
-    return get(ConfigStore, 'appConfig.BENCHMARKS') || null
+  @observable public linkText: string = gettext('👆 Click to test')
+  @observable public marks: MarksProps = {
+    hash: 0,
+    intLoop: 0,
+    floatLoop: 0,
+    ioLoop: 0,
   }
-
-  @action
-  public setMarks = (marks: IMarks) => {
+  public constructor() {
+    makeObservable(this)
+  }
+  @computed public get servers(): AppConfigBenchmarkProps[] | null {
+    return ConfigStore?.appConfig?.BENCHMARKS || null
+  }
+  @action public setMarks = (marks: MarksProps) => {
     this.marks = marks
   }
-
-  @action
-  public setIsLoading = (isLoading: boolean) => {
+  @action public setIsLoading = (isLoading: boolean) => {
     this.isLoading = isLoading
   }
-
-  @action
-  public setLinkText = (linkText: string) => {
+  @action public setLinkText = (linkText: string) => {
     this.linkText = linkText
   }
 }
-
-export default new ServerBenchmarkStore()
+export const ServerBenchmarkStore = new Main()

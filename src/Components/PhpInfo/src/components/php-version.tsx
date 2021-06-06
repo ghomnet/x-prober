@@ -1,51 +1,42 @@
-import React, { Component } from 'react'
-import { observer } from 'mobx-react'
-import store from '../stores'
-import restfulFetch from '~components/Fetch/src/restful-fetch'
-import { OK } from '~components/Restful/src/http-status'
-import versionCompare from '~components/Helper/src/components/version-compare'
-import { template } from 'lodash-es'
-import { gettext } from '~components/Language/src'
-import CardLink from '~components/Card/src/components/card-link'
-
-@observer
-class PhpInfoPhpVersion extends Component {
-  public componentDidMount() {
-    this.fetch()
-  }
-
-  private fetch = async () => {
-    await restfulFetch('latest-php-version')
-      .then(([{ status }, { version, date }]) => {
-        if (status === OK) {
-          store.setLatestPhpVersion(version)
-          store.setLatestPhpDate(date)
-        }
-      })
-      .catch(e => {})
-  }
-  public render() {
-    const {
-      conf: { version },
-      latestPhpVersion,
-    } = store
-    const compare = versionCompare(version, latestPhpVersion)
-
-    return (
-      <CardLink
-        href='https://www.php.net/'
-        title={gettext('Visit PHP.net Official website')}
-      >
-        {version}
-        {compare === -1
-          ? ' ' +
-            template(gettext('(Latest <%= latestPhpVersion %>)'))({
-              latestPhpVersion,
-            })
-          : ''}
-      </CardLink>
-    )
-  }
-}
-
-export default PhpInfoPhpVersion
+import { CardLink } from '@/Card/src/components/card-link'
+import { serverFetch } from '@/Fetch/src/server-fetch'
+import { gettext } from '@/Language/src'
+import { OK } from '@/Restful/src/http-status'
+import { template } from '@/Utils/src/components/template'
+import { versionCompare } from '@/Utils/src/components/version-compare'
+import { observer } from 'mobx-react-lite'
+import React, { useCallback, useEffect } from 'react'
+import { PhpInfoStore } from '../stores'
+export const PhpInfoPhpVersion = observer(() => {
+  const {
+    setLatestPhpVersion,
+    setLatestPhpDate,
+    latestPhpVersion,
+    conf: { version },
+  } = PhpInfoStore
+  const fetch = useCallback(async () => {
+    const { data, status } = await serverFetch('latest-php-version')
+    if (status === OK) {
+      const { version, date } = data
+      setLatestPhpVersion(version)
+      setLatestPhpDate(date)
+    }
+  }, [])
+  useEffect(() => {
+    fetch()
+  }, [])
+  const compare = versionCompare(version, latestPhpVersion)
+  return (
+    <CardLink
+      href='https://www.php.net/'
+      title={gettext('Visit PHP.net Official website')}>
+      {version}
+      {compare === -1
+        ? ' ' +
+          template(gettext('(Latest {{latestPhpVersion}})'), {
+            latestPhpVersion,
+          })
+        : ''}
+    </CardLink>
+  )
+})

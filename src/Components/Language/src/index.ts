@@ -1,17 +1,9 @@
-interface ILangItem {
-  [text: string]: {
-    [langId: string]: string
-  }
-}
-
-interface ILangs {
-  [langId: string]: ILangItem[]
-}
-
-const langs: ILangs = require('./lang.json')
-const langId = navigator.language.replace('-', '_')
-
+import langs from './lang.json'
+const langId = navigator.language
+  .replace('-', '')
+  .replace('_', '')
+  .toLowerCase()
 export const gettext = (text: string, context: string = ''): string => {
   const id = `${context || ''}${text}`
-  return (langs[id] && langs[id][langId]) || text
+  return langs?.[id]?.[langId] ?? text
 }

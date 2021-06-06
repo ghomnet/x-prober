@@ -1,27 +1,22 @@
-import { get } from 'lodash-es'
-import conf from '~components/Helper/src/components/conf'
-import { observable, action, configure } from 'mobx'
-
+import { conf } from '@/Utils/src/components/conf'
+import { action, configure, makeObservable, observable } from 'mobx'
 configure({
   enforceActions: 'observed',
 })
-
-class PhpInfoStore {
+class Main {
   public readonly ID = 'phpInfo'
-  public readonly conf = get(conf, this.ID)
-
+  public readonly conf = conf?.[this.ID]
+  public readonly enabled: boolean = !!this.conf
   @observable public latestPhpVersion: string = ''
   @observable public latestPhpDate: string = ''
-
-  @action
-  public setLatestPhpVersion = (latestPhpVersion: string) => {
+  public constructor() {
+    makeObservable(this)
+  }
+  @action public setLatestPhpVersion = (latestPhpVersion: string) => {
     this.latestPhpVersion = latestPhpVersion
   }
-
-  @action
-  public setLatestPhpDate = (latestPhpDate: string) => {
+  @action public setLatestPhpDate = (latestPhpDate: string) => {
     this.latestPhpDate = latestPhpDate
   }
 }
-
-export default new PhpInfoStore()
+export const PhpInfoStore = new Main()

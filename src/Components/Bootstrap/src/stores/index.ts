@@ -1,29 +1,25 @@
-import { get } from 'lodash-es'
-import conf from '~components/Helper/src/components/conf'
-import { observable, action, configure } from 'mobx'
-
+import { conf } from '@/Utils/src/components/conf'
+import { action, configure, makeObservable, observable } from 'mobx'
 configure({
   enforceActions: 'observed',
 })
-
-class BootstrapStore {
+class Main {
   public readonly ID = 'bootstrap'
-  public readonly conf = get(conf, this.ID)
-  public version: string = get(this.conf, 'version')
-  public appConfigUrls: string[] = get(this.conf, 'appConfigUrls')
-  public appConfigUrlDev: string = get(this.conf, 'appConfigUrlDev')
-  public appName: string = get(this.conf, 'appName')
-  public appUrl: string = get(this.conf, 'appUrl')
-  public authorUrl: string = get(this.conf, 'authorUrl')
-  public authorName: string = get(this.conf, 'authorName')
-  public isDev: boolean = get(this.conf, 'isDev')
-
+  public readonly conf = conf?.[this.ID]
+  public readonly version: string = this.conf?.version
+  public readonly appConfigUrls: string[] = this.conf?.appConfigUrls
+  public readonly appConfigUrlDev: string = this.conf?.appConfigUrlDev
+  public readonly appName: string = this.conf?.appName
+  public readonly appUrl: string = this.conf?.appUrl
+  public readonly authorUrl: string = this.conf?.authorUrl
+  public readonly authorName: string = this.conf?.authorName
+  public readonly isDev: boolean = this.conf?.isDev
   @observable public appContainer: HTMLElement | null = null
-
-  @action
-  public setAppContainer = (appContainer: HTMLElement | null) => {
+  public constructor() {
+    makeObservable(this)
+  }
+  @action public setAppContainer = (appContainer: HTMLElement | null) => {
     this.appContainer = appContainer
   }
 }
-
-export default new BootstrapStore()
+export const BootstrapStore = new Main()
