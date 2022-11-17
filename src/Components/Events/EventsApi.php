@@ -2,10 +2,12 @@
 
 namespace InnStudio\Prober\Components\Events;
 
-class EventsApi
+final class EventsApi
 {
-    private static $events      = array();
+    private static $events = array();
+
     private static $PRIORITY_ID = 'priority';
+
     private static $CALLBACK_ID = 'callback';
 
     public static function on($name, $callback, $priority = 10)
@@ -41,7 +43,7 @@ class EventsApi
             $sortArr[$k] = $filter[self::$PRIORITY_ID];
         }
 
-        \array_multisort($sortArr, $events);
+        array_multisort($sortArr, $events);
 
         foreach ($events as $filter) {
             $return = \call_user_func_array($filter[self::$CALLBACK_ID], array($return, $args));

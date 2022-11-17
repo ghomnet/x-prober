@@ -2,59 +2,57 @@
 
 namespace InnStudio\Prober\Components\TemperatureSensor;
 
+use Exception;
 use InnStudio\Prober\Components\Config\ConfigApi;
 use InnStudio\Prober\Components\Events\EventsApi;
-use InnStudio\Prober\Components\Restful\HttpStatus;
-use InnStudio\Prober\Components\Restful\RestfulResponse;
+use InnStudio\Prober\Components\Rest\RestResponse;
+use InnStudio\Prober\Components\Rest\StatusCode;
 
-class TemperatureSensor
+final class TemperatureSensor
 {
     public function __construct()
     {
-        EventsApi::on('init', array($this, 'filter'));
-    }
+        EventsApi::on('init', function ($action) {
+            if ('temperature-sensor' !== $action) {
+                return $action;
+            }
 
-    public function filter($action)
-    {
-        if ('temperature-sensor' !== $action) {
-            return $action;
-        }
+            $response = new RestResponse();
+            $items    = $this->getItems();
 
-        $response = new RestfulResponse();
-        $items    = $this->getItems();
+            if ($items) {
+                $response->setData($items)->json()->end();
+            }
 
-        if ($items) {
-            $response->setData($items)->dieJson();
-        }
+            $cpuTemp = $this->getCpuTemp();
 
-        $cpuTemp = $this->getCpuTemp();
+            if ( ! $cpuTemp) {
+                $response->setStatus(StatusCode::$NO_CONTENT);
+            }
 
-        if ( ! $cpuTemp) {
-            $response->setStatus(HttpStatus::$NO_CONTENT);
-        }
+            $items[] = array(
+                'id'      => 'cpu',
+                'name'    => 'CPU',
+                'celsius' => round((float) $cpuTemp / 1000, 2),
+            );
 
-        $items[] = array(
-            'id'      => 'cpu',
-            'name'    => 'CPU',
-            'celsius' => \round((float) $cpuTemp / 1000, 2),
-        );
-
-        $response->setData($items)->dieJson();
+            $response->setData($items)->json()->end();
+        });
     }
 
     private function curl($url)
     {
-        if ( ! \function_exists('\\curl_init')) {
-            return null;
+        if ( ! \function_exists('curl_init')) {
+            return;
         }
 
-        $ch = \curl_init();
-        \curl_setopt_array($ch, array(
+        $ch = curl_init();
+        curl_setopt_array($ch, array(
             \CURLOPT_URL            => $url,
             \CURLOPT_RETURNTRANSFER => true,
         ));
-        $res = \curl_exec($ch);
-        \curl_close($ch);
+        $res = curl_exec($ch);
+        curl_close($ch);
 
         return (string) $res;
     }
@@ -71,7 +69,7 @@ class TemperatureSensor
                 continue;
             }
 
-            $item = \json_decode($res, true);
+            $item = json_decode($res, true);
 
             if ( ! $item || ! \is_array($item)) {
                 continue;
@@ -90,8 +88,8 @@ class TemperatureSensor
         try {
             $path = '/sys/class/thermal/thermal_zone0/temp';
 
-            return \file_exists($path) ? (int) \file_get_contents($path) : 0;
-        } catch (\Exception $e) {
+            return file_exists($path) ? (int) file_get_contents($path) : 0;
+        } catch (Exception $e) {
             return 0;
         }
     }

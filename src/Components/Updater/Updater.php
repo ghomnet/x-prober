@@ -4,59 +4,53 @@ namespace InnStudio\Prober\Components\Updater;
 
 use InnStudio\Prober\Components\Config\ConfigApi;
 use InnStudio\Prober\Components\Events\EventsApi;
-use InnStudio\Prober\Components\Restful\HttpStatus;
-use InnStudio\Prober\Components\Restful\RestfulResponse;
+use InnStudio\Prober\Components\Rest\RestResponse;
+use InnStudio\Prober\Components\Rest\StatusCode;
 
-class Updater
+final class Updater
 {
     public function __construct()
     {
-        EventsApi::on('init', array($this, 'filter'));
-    }
-
-    public function filter($action)
-    {
-        if ('update' !== $action) {
-            return $action;
-        }
-
-        $response = new RestfulResponse();
-
-        // check file writable
-        if ( ! \is_writable(__FILE__)) {
-            $response->setStatus(HttpStatus::$INSUFFICIENT_STORAGE);
-            $response->dieJson();
-        }
-
-        $code = '';
-
-        foreach (ConfigApi::$UPDATE_PHP_URLS as $url) {
-            $code = (string) \file_get_contents($url);
-
-            if ('' !== \trim($code)) {
-                break;
-            }
-        }
-
-        if ( ! $code) {
-            $response->setStatus(HttpStatus::$NOT_FOUND);
-            $response->dieJson();
-        }
-
-        // prevent update file on dev mode
-        if (\defined('\\XPROBER_IS_DEV') && \XPROBER_IS_DEV) {
-            $response->dieJson();
-        }
-
-        if ((bool) \file_put_contents(__FILE__, $code)) {
-            if (\function_exists('\\opcache_compile_file')) {
-                @\opcache_compile_file(__FILE__) || \opcache_reset();
+        EventsApi::on('init', function ($action) {
+            if ('update' !== $action) {
+                return $action;
             }
 
-            $response->dieJson();
-        }
+            $response = new RestResponse();
 
-        $response->setStatus(HttpStatus::$INTERNAL_SERVER_ERROR);
-        $response->dieJson();
+            // check file writable
+            if ( ! is_writable(__FILE__)) {
+                $response->setStatus(StatusCode::$INSUFFICIENT_STORAGE)->end();
+            }
+
+            $code = '';
+
+            foreach (ConfigApi::$UPDATE_PHP_URLS as $url) {
+                $code = (string) file_get_contents($url);
+
+                if ('' !== trim($code)) {
+                    break;
+                }
+            }
+
+            if ( ! $code) {
+                $response->setStatus(StatusCode::$NOT_FOUND)->end();
+            }
+
+            // prevent update file on dev mode
+            if (\defined('XPROBER_IS_DEV') && XPROBER_IS_DEV) {
+                $response->end();
+            }
+
+            if ((bool) file_put_contents(__FILE__, $code)) {
+                if (\function_exists('opcache_invalidate')) {
+                    opcache_invalidate(__FILE__, true) || opcache_reset();
+                }
+
+                $response->end();
+            }
+
+            $response->setStatus(StatusCode::$INTERNAL_SERVER_ERROR)->end();
+        });
     }
 }

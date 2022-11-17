@@ -1,0 +1,361 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Km.Van\n"
+"Language-Team: INN STUDIO\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-Basepath: ../src\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: gettext\n"
+
+msgid "Copy marks"
+msgstr ""
+
+msgid "Move up"
+msgstr ""
+
+msgid "Move down"
+msgstr ""
+
+msgid "Dark"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Error: can not fetch remote config data, update checker is disabled."
+msgstr ""
+
+msgid "Database"
+msgstr ""
+
+msgid "DB"
+msgstr ""
+
+msgid "Fetch error, please refresh page."
+msgstr ""
+
+msgid "Generator {{appName}} / Author {{authorName}} / {{memUsage}} / {{time}}ms"
+msgstr ""
+
+msgid "STAR 🌟 ME"
+msgstr ""
+
+msgid "Loading..."
+msgstr ""
+
+msgid "Can not fetch IP"
+msgstr ""
+
+msgid "Not support"
+msgstr ""
+
+msgid "My Information"
+msgstr ""
+
+msgid "Mine"
+msgstr ""
+
+msgid "My IPv4"
+msgstr ""
+
+msgid "My IPv6"
+msgstr ""
+
+msgid "My location (IPv4)"
+msgstr ""
+
+msgid "My browser UA"
+msgstr ""
+
+msgid "My browser languages (via JS)"
+msgstr ""
+
+msgid "My browser languages (via PHP)"
+msgstr ""
+
+msgid "Can not fetch location."
+msgstr ""
+
+msgid "👆 Click to fetch"
+msgstr ""
+
+msgid "The author only has 10,000 API requests per month, please do not abuse it."
+msgstr ""
+
+msgid "Network Stats"
+msgstr ""
+
+msgid "Net"
+msgstr ""
+
+msgid "Nodes"
+msgstr ""
+
+msgid "idle: {{idle}} \\nnice: {{nice}} \\nsys: {{sys}} \\nuser: {{user}}"
+msgstr ""
+
+msgid "CPU usage"
+msgstr ""
+
+msgid "Usage: {{percent}}"
+msgstr ""
+
+msgid "Memory"
+msgstr ""
+
+msgid "Swap"
+msgstr ""
+
+msgid "Fetching..."
+msgstr ""
+
+msgid "Fetch failed. Node returns {{code}}."
+msgstr ""
+
+msgid "PHP Extensions"
+msgstr ""
+
+msgid "Ext"
+msgstr ""
+
+msgid "Opcache enabled"
+msgstr ""
+
+msgid "Opcache JIT enabled"
+msgstr ""
+
+msgid "Loaded extensions"
+msgstr ""
+
+msgid "PHP Information"
+msgstr ""
+
+msgid "PHP"
+msgstr ""
+
+msgid "👆 Click for detail"
+msgstr ""
+
+msgid "Version"
+msgstr ""
+
+msgid "SAPI interface"
+msgstr ""
+
+msgid "Display errors"
+msgstr ""
+
+msgid "Error reporting"
+msgstr ""
+
+msgid "Max memory limit"
+msgstr ""
+
+msgid "Max POST size"
+msgstr ""
+
+msgid "Max upload size"
+msgstr ""
+
+msgid "Max input variables"
+msgstr ""
+
+msgid "Max execution time"
+msgstr ""
+
+msgid "Timeout for socket"
+msgstr ""
+
+msgid "Treatment URLs file"
+msgstr ""
+
+msgid "SMTP support"
+msgstr ""
+
+msgid "Disabled functions"
+msgstr ""
+
+msgid "Disabled classes"
+msgstr ""
+
+msgid "Visit PHP.net Official website"
+msgstr ""
+
+msgid "(Latest {{latestPhpVersion}})"
+msgstr ""
+
+msgid "Network Ping"
+msgstr ""
+
+msgid "Ping"
+msgstr ""
+
+msgid "Times:{{times}}"
+msgstr ""
+
+msgid "Min:{{min}} / Max:{{max}} / Avg:{{avg}}"
+msgstr ""
+
+msgid "⏸️ Stop ping"
+msgstr ""
+
+msgid "👆 Start ping"
+msgstr ""
+
+msgid "Server Benchmark"
+msgstr ""
+
+msgid "Becnhmark"
+msgstr ""
+
+msgid "Read"
+msgstr ""
+
+msgid "Write"
+msgstr ""
+
+msgid "Can not fetch marks data from GitHub."
+msgstr ""
+
+msgid "Visit prober page"
+msgstr ""
+
+msgid "Download speed test"
+msgstr ""
+
+msgid "Visit the official website"
+msgstr ""
+
+msgid "My server"
+msgstr ""
+
+msgid "⏳ Testing, please wait..."
+msgstr ""
+
+msgid "👆 Click to test"
+msgstr ""
+
+msgid "Network error, please try again later."
+msgstr ""
+
+msgid "⏳ Please wait {{seconds}}s"
+msgstr ""
+
+msgid "⚔️ Different versions cannot be compared, and different time servers have different loads, just for reference."
+msgstr ""
+
+msgid "Server Information"
+msgstr ""
+
+msgid "Info"
+msgstr ""
+
+msgid "Unavailable"
+msgstr ""
+
+msgid "{{days}} days {{hours}} hours {{mins}} mins {{secs}} secs"
+msgstr ""
+
+msgid "Server time"
+msgstr ""
+
+msgid "Server uptime"
+msgstr ""
+
+msgid "Server name"
+msgstr ""
+
+msgid "Server IPv4"
+msgstr ""
+
+msgid "Server IPv6"
+msgstr ""
+
+msgid "Server software"
+msgstr ""
+
+msgid "Server location (IPv4)"
+msgstr ""
+
+msgid "CPU model"
+msgstr ""
+
+msgid "Server OS"
+msgstr ""
+
+msgid "Script path"
+msgstr ""
+
+msgid "Disk usage"
+msgstr ""
+
+msgid "Server Status"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Buffers are in-memory block I/O buffers. They are relatively short-lived. Prior to Linux kernel version 2.4, Linux had separate page and buffer caches. Since 2.4, the page and buffer cache are unified and Buffers is raw disk blocks not represented in the page cache—i.e., not file data."
+msgstr ""
+
+msgid "Memory buffers"
+msgstr ""
+
+msgid "Cached memory is memory that Linux uses for disk caching. However, this doesn\\'t count as \"used\" memory, since it will be freed when applications require it. Hence you don\\'t have to worry if a large amount is being used."
+msgstr ""
+
+msgid "Memory cached"
+msgstr ""
+
+msgid "Linux comes with many commands to check memory usage. The \"free\" command usually displays the total amount of free and used physical and swap memory in the system, as well as the buffers used by the kernel. The \"top\" command provides a dynamic real-time view of a running system."
+msgstr ""
+
+msgid "Memory real usage"
+msgstr ""
+
+msgid "Swap cached"
+msgstr ""
+
+msgid "Swap usage"
+msgstr ""
+
+msgid "{{minute}} minute average"
+msgstr ""
+
+msgid "System load"
+msgstr ""
+
+msgid "Temperature Sensor"
+msgstr ""
+
+msgid "Temp."
+msgstr ""
+
+msgid "{{sensor}} temperature"
+msgstr ""
+
+msgid "Click to close"
+msgstr ""
+
+msgid "Can not update file, please check the server permissions and space."
+msgstr ""
+
+msgid "Click to update"
+msgstr ""
+
+msgid "⏳ Updating, please wait a second..."
+msgstr ""
+
+msgid "❌ Update error, click here to try again?"
+msgstr ""
+
+msgid "✨ Found update! Version {{oldVersion}} → {{newVersion}}"
+msgstr ""

@@ -2,6 +2,129 @@
 
 All Notable changes to `X-Prober` will be documented in this file
 
+## 8.14.0 - 2022-11-14
+
+### Add
+
+- Add dark mode
+
+## 8.13.0 - 2022-11-14
+
+### Fix
+
+- Fix body color
+
+## 8.12.0 - 2022-11-14
+
+### Remove
+
+- Remove `styled-components`
+- Remove dark mode (soming soon)
+
+### Remove
+
+- Remove PHP5.3 compatibility
+
+## 8.11.0 - 2022-10-22
+
+### Remove
+
+- Remove PHP5.3 compatibility
+
+### Optimize
+
+- Update packages
+
+## 8.10.0 - 2022-06-19
+
+### Add
+
+- Add PDO database driver detector
+
+## 8.9.0 - 2022-04-02
+
+### Optimize
+
+- Remove babel-loader
+- Upgrade to React 18
+- Optimize file update logic
+
+## 8.8.0 - 2022-01-08
+
+### Fix
+
+- Fix `ping` feature error
+
+### Optimize
+
+- Optimize bold font style
+
+## 8.7.0 - 2021-12-05
+
+### Fix
+
+- Fix `pow` function in php5.4
+
+## 8.6.0 - 2021-10-25
+
+### Fix
+
+- Fix my server benchmark button error
+
+## 8.5.0 - 2021-10-19
+
+### Fix
+
+- Fix FILTER_SANITIZE_STRING error in PHP8.1
+
+### Optimize
+
+## 8.4.0 - 2021-10-18
+
+### Optimize
+
+- Optimize store for Mobx6
+- Update packages
+
+## 8.3.0 - 2021-08-16
+
+### Fix
+
+- Fix `mb_substr_count` function
+
+## 8.2.0 - 2021-08-14
+
+### Fix
+
+- Fix progress bar color error
+
+## 8.1.0 - 2021-08-14
+
+### Optimize
+
+- Optimize page max width
+- ESlint fix
+
+## 8.0.0 - 2021-07-13
+
+### Add
+
+- New server benchmarks
+
+## 7.7.0 - 2021-06-30
+
+### Fix
+
+- Fix duplicate IPv4/IPv6 items
+
+## 7.6.0 - 2021-06-28
+
+### Optimize
+
+- Optimize server info view performance
+- Update packages
+- Update eslint
+
 ## 7.5.0 - 2021-04-10
 
 ### Fix

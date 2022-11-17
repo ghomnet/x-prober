@@ -4,53 +4,46 @@ namespace InnStudio\Prober\Components\PhpInfo;
 
 use InnStudio\Prober\Components\Config\ConfigApi;
 use InnStudio\Prober\Components\Events\EventsApi;
-use InnStudio\Prober\Components\Restful\HttpStatus;
-use InnStudio\Prober\Components\Restful\RestfulResponse;
+use InnStudio\Prober\Components\Rest\RestResponse;
+use InnStudio\Prober\Components\Rest\StatusCode;
 use InnStudio\Prober\Components\Xconfig\XconfigApi;
 
-class FetchLatestPhpVersion extends PhpInfoConstants
+final class FetchLatestPhpVersion extends PhpInfoConstants
 {
     public function __construct()
     {
-        EventsApi::on('init', array($this, 'filter'));
-    }
+        EventsApi::on('init', function ($action) {
+            if (XconfigApi::isDisabled($this->ID)) {
+                return $action;
+            }
 
-    public function filter($action)
-    {
-        if (XconfigApi::isDisabled($this->ID)) {
-            return $action;
-        }
+            if ('latest-php-version' !== $action) {
+                return $action;
+            }
 
-        if ('latest-php-version' !== $action) {
-            return $action;
-        }
+            $response = new RestResponse();
+            $content  = file_get_contents('https://www.php.net/releases/?json');
 
-        $response = new RestfulResponse();
-        $content  = \file_get_contents('https://www.php.net/releases/?json');
+            if ( ! $content) {
+                $response->setStatus(StatusCode::$NOT_FOUND)->end();
+            }
 
-        if ( ! $content) {
-            $response->setStatus(HttpStatus::$NOT_FOUND);
-            $response->dieJson();
-        }
+            $versions = json_decode($content, true);
 
-        $versions = \json_decode($content, true);
+            if ( ! $versions) {
+                $response->setStatus(StatusCode::$NOT_FOUND)->end();
+            }
 
-        if ( ! $versions) {
-            $response->setStatus(HttpStatus::$NOT_FOUND);
-            $response->dieJson();
-        }
+            $version = isset($versions[ConfigApi::$LATEST_PHP_STABLE_VERSION]['version']) ? $versions[ConfigApi::$LATEST_PHP_STABLE_VERSION]['version'] : '';
 
-        $version = isset($versions[ConfigApi::$LATEST_PHP_STABLE_VERSION]['version']) ? $versions[ConfigApi::$LATEST_PHP_STABLE_VERSION]['version'] : '';
+            if ( ! $version) {
+                $response->setStatus(StatusCode::$NOT_FOUND)->end();
+            }
 
-        if ( ! $version) {
-            $response->setStatus(HttpStatus::$NOT_FOUND);
-            $response->dieJson();
-        }
-
-        $response->setData(array(
-            'version' => $version,
-            'date'    => $versions[ConfigApi::$LATEST_PHP_STABLE_VERSION]['date'],
-        ));
-        $response->dieJson();
+            $response->setData(array(
+                'version' => $version,
+                'date'    => $versions[ConfigApi::$LATEST_PHP_STABLE_VERSION]['date'],
+            ))->json()->end();
+        });
     }
 }

@@ -1,20 +1,18 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/Components/*"]
-    },
+    "baseUrl": "src",
+    "paths": {},
     "module": "esnext",
     "target": "es6",
     "lib": ["esnext", "dom"],
     "sourceMap": true,
     "allowJs": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "rootDir": "src",
+    // "rootDir": "src",
     "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": false,
+    "noImplicitReturns": true,
     "noImplicitThis": false,
     "noImplicitAny": false,
     "strictNullChecks": true,
@@ -37,21 +35,13 @@
   },
   "plugins": [
     {
-      "transform": "typescript-plugin-styled-components",
-      "type": "config",
-      "minify": true,
-      "ssr": false
+      "name": "typescript-plugin-css-modules",
+      "options": {
+        "customMatcher": "\\.scss$"
+      }
     }
   ],
-  "include": ["src"],
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "src/setupTests.ts"
-  ],
-  "includes": ["styled-components.d.ts"]
+  "include": ["src/**/*", "*.mjs", "*.scss", "./tools/**/*"],
+  "exclude": ["node_modules", "build", "scripts", "webpack", "jest"],
+  "includes": ["src/scss.d.ts"]
 }

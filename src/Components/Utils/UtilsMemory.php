@@ -2,11 +2,11 @@
 
 namespace InnStudio\Prober\Components\Utils;
 
-class UtilsMemory
+final class UtilsMemory
 {
     public static function getMemoryUsage($key)
     {
-        $key = \ucfirst($key);
+        $key = ucfirst($key);
 
         if (UtilsApi::isWin()) {
             return 0;
@@ -17,26 +17,26 @@ class UtilsMemory
         if (null === $memInfo) {
             $memInfoFile = '/proc/meminfo';
 
-            if ( ! @\is_readable($memInfoFile)) {
+            if ( ! @is_readable($memInfoFile)) {
                 $memInfo = 0;
 
                 return 0;
             }
 
-            $memInfo = \file_get_contents($memInfoFile);
-            $memInfo = \str_replace(array(
+            $memInfo = file_get_contents($memInfoFile);
+            $memInfo = str_replace(array(
                 ' kB',
                 '  ',
             ), '', $memInfo);
 
             $lines = array();
 
-            foreach (\explode("\n", $memInfo) as $line) {
+            foreach (explode("\n", $memInfo) as $line) {
                 if ( ! $line) {
                     continue;
                 }
 
-                $line            = \explode(':', $line);
+                $line            = explode(':', $line);
                 $lines[$line[0]] = (float) $line[1] * 1024;
             }
 
@@ -48,28 +48,30 @@ class UtilsMemory
         }
 
         switch ($key) {
-        case 'MemRealUsage':
-            if (isset($memInfo['MemAvailable'])) {
-                return $memInfo['MemTotal'] - $memInfo['MemAvailable'];
-            }
-
-            if (isset($memInfo['MemFree'])) {
-                if (isset($memInfo['Buffers'], $memInfo['Cached'])) {
-                    return $memInfo['MemTotal'] - $memInfo['MemFree'] - $memInfo['Buffers'] - $memInfo['Cached'];
+            case 'MemRealUsage':
+                if (isset($memInfo['MemAvailable'])) {
+                    return $memInfo['MemTotal'] - $memInfo['MemAvailable'];
                 }
 
-                return $memInfo['MemTotal'] - $memInfo['Buffers'];
-            }
+                if (isset($memInfo['MemFree'])) {
+                    if (isset($memInfo['Buffers'], $memInfo['Cached'])) {
+                        return $memInfo['MemTotal'] - $memInfo['MemFree'] - $memInfo['Buffers'] - $memInfo['Cached'];
+                    }
 
-            return 0;
-        case 'MemUsage':
-            return isset($memInfo['MemFree']) ? $memInfo['MemTotal'] - $memInfo['MemFree'] : 0;
-        case 'SwapUsage':
-            if ( ! isset($memInfo['SwapTotal']) || ! isset($memInfo['SwapFree'])) {
+                    return $memInfo['MemTotal'] - $memInfo['Buffers'];
+                }
+
                 return 0;
-            }
 
-            return $memInfo['SwapTotal'] - $memInfo['SwapFree'];
+            case 'MemUsage':
+                return isset($memInfo['MemFree']) ? $memInfo['MemTotal'] - $memInfo['MemFree'] : 0;
+
+            case 'SwapUsage':
+                if ( ! isset($memInfo['SwapTotal']) || ! isset($memInfo['SwapFree'])) {
+                    return 0;
+                }
+
+                return $memInfo['SwapTotal'] - $memInfo['SwapFree'];
         }
 
         return isset($memInfo[$key]) ? $memInfo[$key] : 0;

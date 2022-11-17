@@ -5,14 +5,15 @@ namespace InnStudio\Prober\Components\Bootstrap;
 use InnStudio\Prober\Components\Config\ConfigApi;
 use InnStudio\Prober\Components\Events\EventsApi;
 
-class Render
+final class Render
 {
     public function __construct()
     {
         $appName    = ConfigApi::$APP_NAME;
         $version    = ConfigApi::$APP_VERSION;
-        $scriptConf = \json_encode(EventsApi::emit('conf', array()));
-        $scriptUrl  = \defined('\\XPROBER_IS_DEV') && \XPROBER_IS_DEV ? 'app.js' : "?action=script&amp;v={$version}";
+        $scriptConf = json_encode(EventsApi::emit('conf', array()));
+        $styleUrl   = \defined('XPROBER_IS_DEV') && XPROBER_IS_DEV ? 'app.css' : "?action=style&amp;v={$version}";
+        $scriptUrl  = \defined('XPROBER_IS_DEV') && XPROBER_IS_DEV ? 'app.js' : "?action=script&amp;v={$version}";
 
         echo <<<HTML
 <!DOCTYPE html>
@@ -23,7 +24,8 @@ class Render
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="renderer" content="webkit">
     <title>{$appName} v{$version}</title>
-    <script>var CONF = {$scriptConf};</script>
+    <link rel="stylesheet" href="{$styleUrl}" />
+    <script>window.CONF = {$scriptConf};</script>
     <script src="{$scriptUrl}" async></script>
 </head>
 <body>

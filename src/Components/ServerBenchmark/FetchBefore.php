@@ -4,7 +4,7 @@ namespace InnStudio\Prober\Components\ServerBenchmark;
 
 use InnStudio\Prober\Components\Events\EventsApi;
 
-class FetchBefore extends ServerBenchmarkApi
+final class FetchBefore extends ServerBenchmarkApi
 {
     public function __construct()
     {
@@ -16,7 +16,7 @@ class FetchBefore extends ServerBenchmarkApi
     public function filter()
     {
         while ($this->isRunning()) {
-            \sleep(2);
+            sleep(2);
         }
     }
 }

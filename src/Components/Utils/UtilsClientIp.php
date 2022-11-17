@@ -2,7 +2,7 @@
 
 namespace InnStudio\Prober\Components\Utils;
 
-class UtilsClientIp
+final class UtilsClientIp
 {
     public static function getV4()
     {
@@ -13,8 +13,8 @@ class UtilsClientIp
                 continue;
             }
 
-            $ip = \array_filter(\explode(',', $_SERVER[$key]));
-            $ip = \filter_var(\end($ip), \FILTER_VALIDATE_IP);
+            $ip = array_filter(explode(',', $_SERVER[$key]));
+            $ip = filter_var(end($ip), \FILTER_VALIDATE_IP);
 
             if ($ip) {
                 return $ip;
